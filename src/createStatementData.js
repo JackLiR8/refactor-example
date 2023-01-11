@@ -1,4 +1,4 @@
-import PerformanceCalculator from './PerformanceCalculator.js';
+import { TragedyCalculator, ComedyCalculator } from './PerformanceCalculator.js';
 
 export default function createStatementData(invoice, plays) {
   const result = {};
@@ -9,7 +9,7 @@ export default function createStatementData(invoice, plays) {
   return result;
 
   function enrichPerformance(aPerformance) {
-    const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
+    const calculator = createPerformanceCalculator(aPerformance, playFor(aPerformance));
     const result = Object.assign({}, aPerformance);
     result.play = calculator.play;
     result.amount = calculator.amount;
@@ -21,14 +21,6 @@ export default function createStatementData(invoice, plays) {
     return plays[aPerformance.playID]
   }
 
-  function amountFor(aPerformance) {
-    return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
-  }
-
-  function volumeCreditsFor(aPerformance) { 
-    return new PerformanceCalculator(aPerformance, playFor(aPerformance)).volumeCredits;
-  }
-
   function totalAmount(data) {
     return data.performances
       .reduce((total, p) => total + p.amount, 0);
@@ -37,5 +29,17 @@ export default function createStatementData(invoice, plays) {
   function totalVolumeCredits(data) {
     return data.performances
       .reduce((total, p) => total + p.volumeCredits, 0);
+  }
+}
+
+/**
+ * 工厂函数
+ */
+function createPerformanceCalculator(aPerformance, aPlay) {
+  switch(aPlay.type) {
+    case "tragedy": return new TragedyCalculator(aPerformance, aPlay);
+    case "comedy" : return new ComedyCalculator(aPerformance, aPlay);
+    default:
+      throw new Error(`unknown type: ${aPlay.type}`);
   }
 }
