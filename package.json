@@ -1,0 +1,26 @@
+{
+  "name": "refactor-example",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "refactor example",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules $(yarn bin jest)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JackLiR8/refactor-example.git"
+  },
+  "keywords": [
+    "refactor"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JackLiR8/refactor-example/issues"
+  },
+  "homepage": "https://github.com/JackLiR8/refactor-example#readme",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
+}
